@@ -14,3 +14,11 @@ router.get('/', async () => {
     hello: 'world',
   }
 })
+
+
+
+const LoginController = () => import('#controllers/login_controller')
+router.post('login', LoginController)
+
+const RegistrosController = () => import('#controllers/registros_controller')
+router.resource('registros', RegistrosController)

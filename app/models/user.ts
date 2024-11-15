@@ -15,13 +15,16 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare id: number
 
   @column()
-  declare fullName: string | null
-
-  @column()
   declare email: string
 
   @column({ serializeAs: null })
   declare password: string
+
+  @column()
+  declare imagenPerfil: string
+
+  @column.dateTime({ autoCreate: false })
+  declare deletedAt: DateTime | null
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -30,4 +33,10 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare updatedAt: DateTime | null
 
   static accessTokens = DbAccessTokensProvider.forModel(User)
+
+  public async verifyPassword(password: string): Promise<boolean> {
+
+    return hash.verify(password, this.password);
+
+  }
 }
